@@ -98,4 +98,24 @@ public class JDBCConnectToDB {
         }
         return flatTitles;
     }
+
+    /** Метод возвращает найденых пользователей */
+    public ResultSet getUser(User user) {
+        ResultSet resultSet = null;
+
+        String select = "SELECT * FROM juliy.users WHERE login = ? AND password = ?";
+
+        try {
+            PreparedStatement preparedStatement = getDBConnection().prepareStatement(select);
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+
+            resultSet = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            System.out.println("Error in method getUser!");
+            e.printStackTrace();
+        }
+
+        return resultSet;
+    }
 }
